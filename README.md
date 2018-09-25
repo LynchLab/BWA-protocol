@@ -7,4 +7,11 @@ Author: Takahiro Maruki
 
 **This package can be downloaded by clicking "Download ZIP" on this web site.**
 
-** Instructions**
+**Instructions**
+
+1. Compile the programs by typing the following command:
+chmod u+x B_Adapters.pl
+chmod u+x N_Adapters.pl
+g++ -o Make_Scripts_IU Make_Scripts_IU.cpp -lm
+g++ -o Make_JobScripts_IU Make_JobScripts_IU.cpp -lm
+g++ -o Make_SubmitJobs_IU Make_SubmitJobs_IU.cpp -lm
