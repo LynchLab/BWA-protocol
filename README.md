@@ -15,8 +15,9 @@ chmod u+x N_Adapters.pl <br />
 g++ -o Make_Scripts_IU Make_Scripts_IU.cpp -lm <br />
 g++ -o Make_JobScripts_IU Make_JobScripts_IU.cpp -lm <br />
 g++ -o Make_SubmitJobs_IU Make_SubmitJobs_IU.cpp -lm <br />
-- These programs and found and compiled in the following directory: <br />
+- These programs are found and compiled in the following directory: <br />
 /N/dc2/projects/daphpops/Software_BWA_Protocol/ <br />
 
 2. Make a working directory for the data. <br />
 For example, type the following command to make a directory called KAP_DataPrep: <br />
+mkdir KAP_DataPrep <br />
