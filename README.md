@@ -9,7 +9,7 @@ Author: Takahiro Maruki
 
 **Instructions**
 
-0. Compile the programs by typing the following command: <br />
+0. Compile the programs by typing the following commands: <br />
 chmod u+x B_Adapters.pl <br />
 chmod u+x N_Adapters.pl <br />
 g++ -o Make_Scripts_IU Make_Scripts_IU.cpp -lm <br />
