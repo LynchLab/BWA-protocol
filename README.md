@@ -64,6 +64,6 @@ For example, type the following command to make the script in KAP: <br />
 - Type the following command to find the available options: <br />
 /N/dc2/projects/daphpops/Software_BWA_Protocol/ Make_SubmitJobs_IU -h <br />
 
-9. Run the script for submitting the jobs.
+9. Run the script for submitting the jobs. <br />
 chmod u+x KAP_SubmitJobs.sh <br />
 ./KAP_SubmitJobs.sh <br />
