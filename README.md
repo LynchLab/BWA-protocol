@@ -5,7 +5,7 @@ Septermber 26, 2018
 
 Author: Takahiro Maruki
 
-**This package can be downloaded by clicking "Download ZIP" on this web site.**
+**This package can be downloaded by clicking "Clone or download" on this web site.**
 
 **Instructions**
 
