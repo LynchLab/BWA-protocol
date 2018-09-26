@@ -31,7 +31,7 @@ mkdir KAP_DataPrep <br />
 3. Prepare isolate-specific FASTA files of adapter sequences in the working directory. <br />
 a. For example, to make isolate-specific FASTA files of adapter sequences in KAP, where the Bioo kit was used in the library preparation, type the following command: <br />
 perl /N/dc2/projects/daphpops/Software_BWA_Protocol/B_Adapters.pl /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP_barcodes.txt <br />
-b. For example, to make isolate-specific FASTA files of adapter sequences in SH, where the Nextera kit was used in the library preparation, type the following command:
+b. For example, to make isolate-specific FASTA files of adapter sequences in SH, where the Nextera kit was used in the library preparation, type the following command: <br />
 perl /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl /N/dc2/projects/daphpops/Population_samples/SH/SH_barcodes.txt <br />
 
 4. Make text files of isolate IDs and FASTQ files in the working directory. <br />
