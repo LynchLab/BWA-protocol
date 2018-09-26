@@ -1,0 +1,107 @@
+# Updated on 09/14/18
+# Use /N/dc2/projects/daphpops/Software_BWA_Protocol/B_Adapters.pl
+# Use /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl
+# Use Trimmomatic (version 0.38): /N/dc2/projects/daphpops/Software_BWA_Protocol/Trimmomatic-0.38/trimmomatic-0.38.jar
+# Use BWA (version 0.1.17): /N/dc2/projects/daphpops/Software_BWA_Protocol/bwa-0.7.17/bwa
+# Use Samtools (Version: 1.9): /N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools
+# Use Picard (Version 2.18.11): /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar
+# Use GenomeAnalysisTK.jar (Version 3.4-0): /N/dc2/projects/daphpops/Software_BWA_Protocol/GenomeAnalysisTK.jar
+# Use bamUtil (Version: 1.0.14): /N/dc2/projects/daphpops/Software_BWA_Protocol/bamUtil-1.0.14/bin/bam
+
+# 1. Make BWA and Samtools index files and a dictionary file of the reference FASTA file.
+# Make BWA index files.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/bwa-0.7.17/bwa index /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta
+# Make a Samtools index file
+/N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools faidx /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta
+# Make a dictionary file of a reference file
+module load java/jdk/1.8.0_74
+# The java version should not matter as long as it works.
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar CreateSequenceDictionary /N/dc2/projects/daphpops/PA42.4.1_reference/R=PA42.4.1.fasta O=PA42.4.1.dict
+# These files are found in /N/dc2/projects/daphpops/PA42.4.1_reference.  We should share these files to be consistent.
+
+# 2. Make a text file of barcode sequences. 
+# Example file (KAP_barcodes.txt) found in /N/dc2/projects/daphpops/Population_samples/KAP2013
+ 
+# 3. Prepare isolate-specific FASTA files of adapter sequences.
+# a. If the Bioo kit was used in the library preparation, type the following command:
+perl /N/dc2/projects/daphpops/Software_BWA_Protocol/B_Adapters.pl /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP_barcodes.txt
+# b. If the Nextera kit was used in the library preparation, type the following command:
+perl /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP_barcodes.txt
+
+# 4. Trim adapter sequences from sequence reads.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/Trimmomatic-0.38/trimmomatic-0.38.jar PE /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP-00030_15lanes_R1.fastq /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP-00030_15lanes_R2.fastq KAP-00030_R1-paired.fastq KAP-00030_R1-unpaired.fastq KAP-00030_R2-paired.fastq KAP-00030_R2-unpaired.fastq HEADCROP:3 ILLUMINACLIP:KAP-00030_Adapters.fa:2:30:10:2 SLIDINGWINDOW:4:15 MINLEN:30
+# The order of the options matters here, as the trimming in Trimmomatic is done in the specified order.
+# HEADCROP: Removes the specified number of bases (3 here), regardless of the quality, from the beginning of the read.
+# ILLUMINACRIP: Cuts adapter and other Illumina-specific sequences from the read.  The meanings of the parameters are as follows:  
+# The first parameter (KAP-00001_Adapters.fa here) specifies the path to a FASTA file containing all adapters.  Make sure to prepare the FASTA file of adapter sequences before running the command.  
+# The second parameter (2 here) specifies the maximum mismatch count which will still allow a full match to be performed.
+# The third parameter (30 here) specifies how accurate the match between the 'adapter ligated' reads must be for the PE palindrome read alignment.
+# The fourth parameter (10 here) specifies how accurate the match between any adapter sequence must be against a read.
+# The fifth parameter (2 here) specifies the minimum length of the adapters detected.
+# SLIDINGWINDOW: Performs a sliding-window approach.  It starts scanning at the 5' end and clips the read once the average quality within the window falls below a threshold.  The meanings of the parameters are as follows:
+# The first parameter (4 here) specifies the number of bases to average across.
+# The second parameter (15 here) specifies the average quality required.
+# MINLEN: Drops the read if it is below a specified length (30 here).
+
+# 5. Map reads to the reference sequence.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/bwa-0.7.17/bwa mem -t 16 -M /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta KAP-00030_R1-paired.fastq KAP-00030_R2-paired.fastq > KAP-00030_PA42.4.1-paired.sam &
+/N/dc2/projects/daphpops/Software_BWA_Protocol/bwa-0.7.17/bwa mem -t 16 -M /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta KAP-00030_R1-unpaired.fastq > KAP-00030_PA42.4.1_R1-unpaired.sam &
+/N/dc2/projects/daphpops/Software_BWA_Protocol/bwa-0.7.17/bwa mem -t 16 -M /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta KAP-00030_R2-unpaired.fastq > KAP-00030_PA42.4.1_R2-unpaired.sam &
+
+wait
+# -t 16 specifies to use 16 threads.
+# -M specifies to mark shorter split hits as secondary.
+# Do not forget to include "wait".  It makes sure to wait at this step until all mapping commands are finished.  
+
+# 6. Combine the SAM files using Picard.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar MergeSamFiles I=KAP-00030_PA42.4.1-paired.sam I=KAP-00030_PA42.4.1_R1-unpaired.sam I=KAP-00030_PA42.4.1_R2-unpaired.sam O=KAP-00030_PA42.4.1.sam
+
+# 7. Convert the SAM file to the BAM file using Samtools.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools view -bS KAP-00030_PA42.4.1.sam > KAP-00030_PA42.4.1.bam
+
+# 8. Sort the BAM file using Picard.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar SortSam INPUT=KAP-00030_PA42.4.1.bam OUTPUT=Sorted_KAP-00030_PA42.4.1.bam SORT_ORDER=coordinate
+
+# 9. Filter the BAM file using Samtools.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools view -q 20 -f 3 -F 3844 -b Sorted_KAP-00030_PA42.4.1.bam > Filtered_Sorted_KAP-00030_PA42.4.1.bam
+# -q 20 specifies to keep mapped reads with at least 20 mapping-quality scores. 
+# -f 3 specifies to keep only properly paired reads.
+# -F 3844 specifies to remove unmapped reads (0x4), non-primary reads (0x100), reads that fail platform/vendor quality checks (0x200), PCR or optical duplicate reads (0x400), and supplementary reads (0x800).  
+
+# 10. Add read groups to the sorted BAM file using Picard.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar AddOrReplaceReadGroups INPUT=Filtered_Sorted_KAP-00030_PA42.4.1.bam OUTPUT=RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam RGID=Daphnia RGLB=bar RGPL=illumina RGSM=KAP-00030 RGPU=6
+# The following five read-group fields are required for using GATK.
+# ID: globally unique string identifying the sequencing run.
+# LB: an identifier of the library from which the DNA was sequenced.
+# PL: the platform used.
+# SM: the name associated with the DNA sample in the file.
+# PU: the platform unit identifier for the sequencing run.
+
+# 11. Mark duplicate reads using Picard.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar MarkDuplicates INPUT=RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam OUTPUT=dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam METRICS_FILE=KAP-00030_PA42.4.1_metrics.txt
+
+# 12. Index the BAM file using Picard.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/picard.jar BuildBamIndex INPUT=dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam
+
+# 13. Define intervals to target for the local realignment using GATK.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/GenomeAnalysisTK.jar -T RealignerTargetCreator -R /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta -I dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam -o KAP-00030_PA42.4.1.intervals
+
+# 14. Locally realign reads around indels using GATK.
+module load java/jdk/1.8.0_74
+java -jar /N/dc2/projects/daphpops/Software_BWA_Protocol/GenomeAnalysisTK.jar -T IndelRealigner -R /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta -I dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam -targetIntervals KAP-00030_PA42.4.1.intervals -o realigned_dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam
+
+# 15. Clip overlapping read pairs using bamUtil.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/bamUtil-1.0.14/bin/bam clipOverlap --in realigned_dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam --out Clipped_realigned_dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam
+
+# 16. Index the clipped BAM file using Samtools.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools index Clipped_realigned_dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam
+
+# 17. Make the mpileup file from the BAM file using Samtools.
+/N/dc2/projects/daphpops/Software_BWA_Protocol/samtools-1.9/samtools mpileup -f /N/dc2/projects/daphpops/PA42.4.1_reference/PA42.4.1.fasta Clipped_realigned_dedup_RG_Filtered_Sorted_KAP-00030_PA42.4.1.bam > KAP-00030_PA42.4.1.mpileup
