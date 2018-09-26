@@ -39,6 +39,7 @@ For example, the text file of isolate IDs in KAP can be made by typing the follo
 ls \*.fa | cut -c-9 > IDs_KAP.txt <br />
 For example, the text file of FASTQ files in KAP can be made by typing the following command: <br />
 ls /N/dc2/projects/daphpops/Population_samples/KAP2013/\*.fastq > FASTQs_KAP.txt <br />
+- The order of the isolate IDs need to be consistent in the two files. <br />
 
 5. Make scripts for preparing mpileup files for each of the individuals using Make_Scripts_IU. <br />
 For example, type the following command to make the scripts in KAP. <br />
