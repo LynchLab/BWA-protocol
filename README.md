@@ -69,5 +69,5 @@ For example, type the following commands to submit the KAP jobs. <br />
 chmod u+x KAP_SubmitJobs.sh <br />
 ./KAP_SubmitJobs.sh <br />
 - A few jobs may sometimes be skipped in this way.  Check whether all the jobs have been submitted by typing the following command: <br />
-qstat –au xxxxxxx <br />
+qstat -au xxxxxxx <br />
 
