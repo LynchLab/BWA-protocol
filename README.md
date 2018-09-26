@@ -22,7 +22,7 @@ g++ -o Make_SubmitJobs_IU Make_SubmitJobs_IU.cpp -lm <br />
 For example, type the following command to make a directory called KAP_DataPrep: <br />
 mkdir KAP_DataPrep <br />
 
-2. Prepare a text file of barcode sequences in the working directory. <br />
+2. Prepare a text file of barcode sequences. <br />
 - Example file in KAP using the Bioo kit (KAP_barcodes.txt) is found in the following directory <br />
 /N/dc2/projects/daphpops/Population_samples/KAP2013 <br />
 - Example file in SH using the Nextera kit (SH_barcodes.txt) is found in the following directory: <br />
