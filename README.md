@@ -40,3 +40,29 @@ ls \*.fa | cut -c-9 > IDs_KAP.txt <br />
 For example, the text file of FASTQ files in KAP can be made by typing the following command: <br />
 ls /N/dc2/projects/daphpops/Population_samples/KAP2013/\*.fastq > FASTQs_KAP.txt <br />
 
+5. Make scripts for preparing mpileup files for each of the individuals using Make_Scripts_IU. <br />
+For example, type the following command to make the scripts in KAP. <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_Scripts_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -lf FASTQs_KAP.txt -li IDs_KAP.txt -sd /N/dc2/projects/daphpops/Software_BWA_Protocol -rd /N/dc2/projects/daphpops/PA42.4.1_reference -rn PA42.4.1 -fd /N/dc2/projects/daphpops/Population_samples/KAP2013 <br />
+- Substitue your user name for xxxxxxx. <br />
+- Type the following command to find the available options: <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_Scripts_IU -h
+
+6. Make the scripts executable. <br />
+For example, type the following command to make the scripts executable in KAP. <br />
+chmod u+x KAP-\*_Proc.sh <br />
+
+7. Make corresponding job scripts using Make_JobScripts_IU. <br />
+For example, type the following command to make the job scripts in KAP: <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol//Make_JobScripts_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -em xxxxxxx@indiana.edu -t 48:00:00 <br />
+- Type the following command to find the available options: <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_JobScripts_IU -h <br />
+
+8. Make a script for submitting the jobs using Make_SubmitJobs_IU. <br />
+For example, type the following command to make the script in KAP: <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol//Make_SubmitJobs_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -out KAP_SubmitJobs.sh <br />
+- Type the following command to find the available options: <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/ Make_SubmitJobs_IU -h <br />
+
+9. Run the script for submitting the jobs.
+chmod u+x KAP_SubmitJobs.sh <br />
+./KAP_SubmitJobs.sh <br />
