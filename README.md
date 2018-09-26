@@ -36,7 +36,7 @@ perl /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl /N/dc2/project
 
 4. Make text files of isolate IDs and FASTQ files in the working directory. <br />
 For example, the text file of isolate IDs in KAP can be made by typing the following command: <br />
-ls *.fa | cut -c-9 > IDs_KAP.txt <br />
+ls \*.fa | cut -c-9 > IDs_KAP.txt <br />
 For example, the text file of FASTQ files in KAP can be made by typing the following command: <br />
-ls /N/dc2/projects/daphpops/Population_samples/KAP2013/*.fastq > FASTQs_KAP.txt <br />
+ls /N/dc2/projects/daphpops/Population_samples/KAP2013/\*.fastq > FASTQs_KAP.txt <br />
 
