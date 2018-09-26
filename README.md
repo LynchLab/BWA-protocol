@@ -1,7 +1,7 @@
 # BWA-protocol
 Protocol for making mpileup files from FASTQ files using BWA
 
-Septermber 25, 2018
+Septermber 26, 2018
 
 Author: Takahiro Maruki
 
@@ -21,3 +21,22 @@ g++ -o Make_SubmitJobs_IU Make_SubmitJobs_IU.cpp -lm <br />
 1. Make a working directory for the data. <br />
 For example, type the following command to make a directory called KAP_DataPrep: <br />
 mkdir KAP_DataPrep <br />
+
+2. Prepare a text file of barcode sequences in the working directory. <br />
+- Example file in KAP using the Bioo kit (KAP_barcodes.txt) is found in the following directory <br />
+/N/dc2/projects/daphpops/Population_samples/KAP2013 <br />
+- Example file in SH using the Nextera kit (SH_barcodes.txt) is found in the following directory: <br />
+/N/dc2/projects/daphpops/Population_samples/SH <br />
+
+3. Prepare isolate-specific FASTA files of adapter sequences in the working directory. <br />
+a. For example, to make isolate-specific FASTA files of adapter sequences in KAP, where the Bioo kit was used in the library preparation, type the following command: <br />
+perl /N/dc2/projects/daphpops/Software_BWA_Protocol/B_Adapters.pl /N/dc2/projects/daphpops/Population_samples/KAP2013/KAP_barcodes.txt <br />
+b. For example, to make isolate-specific FASTA files of adapter sequences in SH, where the Nextera kit was used in the library preparation, type the following command:
+perl /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl /N/dc2/projects/daphpops/Population_samples/SH/SH_barcodes.txt <br />
+
+4. Make text files of isolate IDs and FASTQ files in the working directory. <br />
+For example, the text file of isolate IDs in KAP can be made by typing the following command: <br />
+ls *.fa | cut -c-9 > IDs_KAP.txt <br />
+For example, the text file of FASTQ files in KAP can be made by typing the following command: <br />
+ls /N/dc2/projects/daphpops/Population_samples/KAP2013/*.fastq > FASTQs_KAP.txt <br />
+
