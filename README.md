@@ -65,7 +65,7 @@ For example, type the following command to make the script in KAP: <br />
 /N/dc2/projects/daphpops/Software_BWA_Protocol/ Make_SubmitJobs_IU -h <br />
 
 9. Run the script for submitting the jobs. <br />
-For example, type the following commands to submit the KAP jobs. <br />
+For example, type the following commands to submit the KAP jobs: <br />
 chmod u+x KAP_SubmitJobs.sh <br />
 ./KAP_SubmitJobs.sh <br />
 - A few jobs may sometimes be skipped in this way.  Check whether all the jobs have been submitted by typing the following command: <br />
