@@ -48,7 +48,7 @@ For example, type the following command to make the scripts in KAP. <br />
 /N/dc2/projects/daphpops/Software_BWA_Protocol/Make_Scripts_IU -h
 
 6. Make the scripts executable. <br />
-For example, type the following command to make the scripts executable in KAP. <br />
+For example, type the following command to make the scripts executable in KAP: <br />
 chmod u+x KAP-\*_Proc.sh <br />
 
 7. Make corresponding job scripts using Make_JobScripts_IU. <br />
