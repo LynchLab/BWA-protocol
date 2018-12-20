@@ -54,15 +54,15 @@ chmod u+x KAP-\*_Proc.sh <br />
 
 7. Make corresponding job scripts using Make_JobScripts_IU. <br />
 For example, type the following command to make the job scripts in KAP: <br />
-/N/dc2/projects/daphpops/Software_BWA_Protocol//Make_JobScripts_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -em xxxxxxx@indiana.edu -t 48:00:00 <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_JobScripts_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -em xxxxxxx@indiana.edu -t 48:00:00 <br />
 - Type the following command to find the available options: <br />
 /N/dc2/projects/daphpops/Software_BWA_Protocol/Make_JobScripts_IU -h <br />
 
 8. Make a script for submitting the jobs using Make_SubmitJobs_IU. <br />
 For example, type the following command to make the script in KAP: <br />
-/N/dc2/projects/daphpops/Software_BWA_Protocol//Make_SubmitJobs_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -out KAP_SubmitJobs.sh <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_SubmitJobs_IU -wd /N/dc2/scratch/xxxxxxx/KAP_DataPrep -li IDs_KAP.txt -out KAP_SubmitJobs.sh <br />
 - Type the following command to find the available options: <br />
-/N/dc2/projects/daphpops/Software_BWA_Protocol/ Make_SubmitJobs_IU -h <br />
+/N/dc2/projects/daphpops/Software_BWA_Protocol/Make_SubmitJobs_IU -h <br />
 
 9. Run the script for submitting the jobs. <br />
 For example, type the following commands to submit the KAP jobs: <br />
