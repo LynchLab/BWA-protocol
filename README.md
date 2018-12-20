@@ -34,11 +34,11 @@ perl /N/dc2/projects/daphpops/Software_BWA_Protocol/B_Adapters.pl /N/dc2/project
 b. For example, to make isolate-specific FASTA files of adapter sequences in SH, where the Nextera kit was used in the library preparation, type the following command: <br />
 perl /N/dc2/projects/daphpops/Software_BWA_Protocol/N_Adapters.pl /N/dc2/projects/daphpops/Population_samples/SH/SH_barcodes.txt <br />
 
-4. Make text files of isolate IDs and FASTQ files in the working directory. <br />
-For example, the text file of isolate IDs in KAP can be made by typing the following command: <br />
+4. Make text files of isolate IDs and FASTQ files and have them in the working directory. <br />
+For example, the text file of isolate IDs in KAP can be made by typing the following command in the working directory: <br />
 ls \*.fa | cut -c-9 > IDs_KAP.txt <br />
-For example, the text file of FASTQ files in KAP can be made by typing the following command: <br />
-ls /N/dc2/projects/daphpops/Population_samples/KAP2013/\*.fastq > FASTQs_KAP.txt <br />
+For example, the text file of FASTQ files in KAP can be made by typing the following command in a directory containing the files: <br />
+ls \*.fastq > FASTQs_KAP.txt <br />
 - The order of the isolate IDs need to be consistent in the two files. <br />
 
 5. Make scripts for preparing mpileup files for each of the individuals using Make_Scripts_IU. <br />
